@@ -29,4 +29,4 @@ PASSWORD = quote("your_password")  # must be modified
 IP = "localhost"
 PORT = "5433"
 DATABASE_NAME = "dashboard"
-READY_DATA_DB_URI = "postgresql://{USER_NAME}:{PASSWORD}@{IP}:{PORT}/{DATABASE_NAME}"
+READY_DATA_DB_URI = f"postgresql://{USER_NAME}:{PASSWORD}@{IP}:{PORT}/{DATABASE_NAME}"
