@@ -1,5 +1,5 @@
 def generate_sql_to_define_column(
-    table_name, col_map, is_add_ogc_fid=True, is_add_mtime=True, is_add_ctime=True
+    table_name, col_map, is_add_ogc_fid=False, is_add_mtime=False, is_add_ctime=False
 ):
     """
     Generate SQL to define columns by converting the input dictionary into SQL text.
@@ -7,9 +7,9 @@ def generate_sql_to_define_column(
     Args:
         table_name (str): The name of the table.
         col_map (dict): A dictionary containing column names as keys and column types as values.
-        is_add_ogc_fid (bool): Whether to add the OGC_FID column. Default is True.
-        is_add_mtime (bool): Whether to add the MTIME column. Default is True.
-        is_add_ctime (bool): Whether to add the CTIME column. Default is True.
+        is_add_ogc_fid (bool): Whether to add the OGC_FID column. Default is False.
+        is_add_mtime (bool): Whether to add the MTIME column. Default is False.
+        is_add_ctime (bool): Whether to add the CTIME column. Default is False.
 
     Returns:
         str: SQL text defining the columns.
@@ -21,11 +21,11 @@ def generate_sql_to_define_column(
         'age': 'integer'
     }
     column_define_sql = generate_sql_to_define_column(col_map)
-    column_define_sql = generate_sql_to_define_column(col_map, is_add_ogc_fid=False)
-    column_define_sql = generate_sql_to_define_column(col_map, is_add_mtime=False)
-    column_define_sql = generate_sql_to_define_column(col_map, is_add_ctime=False)
+    column_define_sql = generate_sql_to_define_column(col_map, is_add_ogc_fid=True)
+    column_define_sql = generate_sql_to_define_column(col_map, is_add_mtime=True)
+    column_define_sql = generate_sql_to_define_column(col_map, is_add_ctime=True)
     column_define_sql = generate_sql_to_define_column(
-        col_map, is_add_ogc_fid=False, is_add_ctime=False, is_add_mtime=False
+        col_map, is_add_ogc_fid=True, is_add_ctime=True, is_add_mtime=True
     )
     """
     col_sql = ""
@@ -48,7 +48,7 @@ def generate_sql_to_define_column(
 
     if is_add_ogc_fid:
         ofc_fid_sql = f"""
-            ,\n        ogc_fid integer NOT NULL DEFAULT nextval('{table_name}_ogc_fid_seq'::regclass),
+            \n        ,ogc_fid integer NOT NULL DEFAULT nextval('{table_name}_ogc_fid_seq'::regclass),
             \n        CONSTRAINT {table_name}_pkey PRIMARY KEY (ogc_fid)
         """
         col_sql += ofc_fid_sql
@@ -59,9 +59,9 @@ def generate_sql_to_define_column(
 def generate_sql_to_create_db_table(
     table_name,
     col_map,
-    is_add_mtime=True,
-    is_add_ctime=True,
-    is_add_ogc_fid=True,
+    is_add_mtime=False,
+    is_add_ctime=False,
+    is_add_ogc_fid=False,
     is_grant_socl_reader=False,
 ):
     """
@@ -70,9 +70,9 @@ def generate_sql_to_create_db_table(
     Args:
         table_name (str): The name of the table.
         col_map (dict): A dictionary containing column names as keys and column types as values.
-        is_add_mtime (bool): Whether to add the MTIME column. Default is True.
-        is_add_ctime (bool): Whether to add the CTIME column. Default is True.
-        is_add_ogc_fid (bool): Whether to add the OGC_FID column. Default is True.
+        is_add_mtime (bool): Whether to add the MTIME column. Default is False.
+        is_add_ctime (bool): Whether to add the CTIME column. Default is False.
+        is_add_ogc_fid (bool): Whether to add the OGC_FID column. Default is False.
         is_grant_socl_reader (bool): Whether to grant SELECT permission to socl_reader. Default is False.
 
     Returns:
